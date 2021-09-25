@@ -65,10 +65,10 @@ class App : Application() {
     }
 
     private val viewModelModule = module {
-        viewModel { MainViewModel(get(), get(), get()) }
-        viewModel { LoginViewModel(get(), get()) }
-        viewModel { RepoListViewModel(get(), get(), get()) }
-        viewModel { RepoListItemViewModel(get()) }
+        viewModel { MainViewModel(get(), get()) }
+        viewModel { LoginViewModel(get()) }
+        viewModel { RepoListViewModel(get(), get()) }
+        viewModel { RepoListItemViewModel() }
     }
 
     override fun onCreate() {

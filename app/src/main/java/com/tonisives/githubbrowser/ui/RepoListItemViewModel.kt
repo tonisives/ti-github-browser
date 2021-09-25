@@ -5,8 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.tonisives.githubbrowser.model.Repo
 
-class RepoListItemViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
-    val carId : String = savedStateHandle["carId"] ?: throw IllegalArgumentException("missing user id")
+class RepoListItemViewModel() : ViewModel() {
     val repo : LiveData<Repo> = TODO()
 
 // TODO: Implement the ViewModel

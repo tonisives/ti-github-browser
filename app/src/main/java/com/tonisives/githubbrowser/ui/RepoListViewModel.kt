@@ -6,7 +6,6 @@ import com.tonisives.githubbrowser.repository.RepoRepository
 import com.tonisives.githubbrowser.repository.UserRepository
 
 class RepoListViewModel(
-    savedStateHandle: SavedStateHandle,
     userRepository: UserRepository,
     reposRepository: RepoRepository
 ) : ViewModel() {
