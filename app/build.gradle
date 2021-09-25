@@ -1,0 +1,103 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+apply from: "https://raw.githubusercontent.com/tonisives/tools/master/gradle/test-shell-logging.gradle"
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.tt.githubbrowser"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "com.tt.githubbrowser.app.Runner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+    sourceSets {
+        androidTest {
+            java.srcDirs += "src/sharedTest/java"
+            resources.srcDirs += "src/sharedTest/resources"
+        }
+        test {
+            java.srcDirs += "src/sharedTest/java"
+            resources.srcDirs += "src/sharedTest/resources"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation deps.timber
+    implementation deps.cardview
+    implementation deps.recyclerview
+
+    implementation deps.kotlin.stdlib
+    implementation deps.app_compat
+    implementation deps.core_ktx
+    implementation deps.constraint_layout
+
+    implementation deps.lifecycle.viewmodel_ktx
+    implementation deps.lifecycle.livedata_ktx
+    implementation deps.lifecycle.compiler
+
+    implementation deps.activity.activity_ktx
+    implementation deps.fragment.runtime_ktx
+
+    // room
+    implementation deps.room.runtime
+    kapt deps.room.compiler
+    implementation deps.room.ktx
+    androidTestImplementation deps.room.testing
+
+    // volley
+    implementation "com.android.volley:volley:1.1.1"
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // koin
+    implementation "org.koin:koin-androidx-viewmodel:2.2.1"
+
+    // tests
+    implementation deps.arch_core.testing
+
+    testImplementation deps.junit
+    testImplementation deps.atsl.core
+    testImplementation deps.mock_web_server
+    testImplementation "io.mockk:mockk:1.10.0"
+
+    androidTestImplementation "io.mockk:mockk-android:1.10.0"
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.1'
+    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+}
+
+apply from: "https://raw.githubusercontent.com/tonisives/tools/master/gradle/test-shell-logging.gradle"
