@@ -16,7 +16,7 @@
 
 package util
 
-import com.tt.githubbrowser.util.AppExecutors
+import com.tonisives.githubbrowser.util.AppExecutors
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit

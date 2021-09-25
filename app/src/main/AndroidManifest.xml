@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tt.githubbrowser">
+    package="com.tonisives.githubbrowser">
 
     <application
-        android:name="com.tt.githubbrowser.App"
+        android:name="com.tonisives.githubbrowser.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_background"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name="com.tt.githubbrowser.ui.LoginActivity"
+            android:name="com.tonisives.githubbrowser.ui.LoginActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:theme="@style/Theme.AppCompat">
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tt.githubbrowser.ui.MainActivity"
+            android:name="com.tonisives.githubbrowser.ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat"></activity>
