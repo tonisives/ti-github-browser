@@ -5,7 +5,10 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -18,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.tonisives.githubbrowser.App.Companion.context
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -26,6 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 fun LoginView(viewModel: LoginViewModel) = AppTheme {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -33,6 +38,7 @@ fun LoginView(viewModel: LoginViewModel) = AppTheme {
         modifier = Modifier
             .background(Color.LightGray)
             .fillMaxSize()
+            .clickable { focusManager.clearFocus() }
     ) {
         LoginFields(
             email,
@@ -68,6 +74,8 @@ fun LoginFields(
             placeholder = { Text(text = "user@email.com") },
             label = { Text(text = "email") },
             onValueChange = onEmailChange,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
         )
 
         OutlinedTextField(
@@ -75,6 +83,8 @@ fun LoginFields(
             placeholder = { Text(text = "password") },
             label = { Text(text = "password") },
             onValueChange = onPasswordChange,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
         )
 
         Button(onClick = {
