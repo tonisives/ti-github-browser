@@ -12,7 +12,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
 import timber.log.Timber
-import timber.log.Timber.d
+import timber.log.Timber.Forest.d
 import java.net.URLDecoder
 
 // Client constructs and starts the requests.
@@ -64,11 +64,11 @@ abstract class ApiClient(val ctx: Context) {
     }
 
     private fun <T> printRequest(request: Request<T>) {
-        if (Timber.treeCount() == 0) return
+        if (Timber.Forest.treeCount == 0) return
         try {
             val body: ByteArray = request.body
             val bodyString = if (body != null) "\nbody:\n" + String(request.body) else ""
-            val headers = JSONObject(request.headers)
+            val headers = JSONObject(request.headers as Map<*, *>)
             val log = ">>> \n" + URLDecoder.decode(request.url, "ASCII") + "\nheaders:\n" + headers.toString(2) + bodyString
             d(log)
         } catch (e: Exception) {

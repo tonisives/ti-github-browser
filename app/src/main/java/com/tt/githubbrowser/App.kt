@@ -1,13 +1,7 @@
 package com.tt.githubbrowser
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.os.Bundle
-import android.view.View
-import android.view.Window
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import com.tt.githubbrowser.dao.AppDatabase
 import com.tt.githubbrowser.dao.SharedPreferencesDao
@@ -16,10 +10,10 @@ import com.tt.githubbrowser.network.client.RepoClient
 import com.tt.githubbrowser.repository.AuthRepository
 import com.tt.githubbrowser.repository.RepoRepository
 import com.tt.githubbrowser.repository.UserRepository
-import com.tt.githubbrowser.ui.RepoListItemViewModel
-import com.tt.githubbrowser.ui.RepoListViewModel
 import com.tt.githubbrowser.ui.LoginViewModel
 import com.tt.githubbrowser.ui.MainViewModel
+import com.tt.githubbrowser.ui.RepoListItemViewModel
+import com.tt.githubbrowser.ui.RepoListViewModel
 import com.tt.githubbrowser.util.AppExecutors
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

@@ -9,8 +9,5 @@ class RepoListItemViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     val carId : String = savedStateHandle["carId"] ?: throw IllegalArgumentException("missing user id")
     val repo : LiveData<Repo> = TODO()
 
-
-
-
 // TODO: Implement the ViewModel
 }
