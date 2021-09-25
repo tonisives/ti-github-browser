@@ -1,6 +1,7 @@
 package com.tonisives.githubbrowser.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.tonisives.githubbrowser.App.Companion.context
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -83,6 +88,7 @@ fun LoginFields(
             placeholder = { Text(text = "password") },
             label = { Text(text = "password") },
             onValueChange = onPasswordChange,
+            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
         )
@@ -107,8 +113,18 @@ fun LoginFields(
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             LoginView(getViewModel())
+        }
+
+        // animate the view up if text field selected
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val rootView = findViewById<View>(android.R.id.content).rootView
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { _, insets ->
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            rootView.setPadding(0, 0, 0, imeHeight)
+            insets
         }
     }
 }
