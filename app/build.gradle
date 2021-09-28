@@ -9,12 +9,12 @@ apply from: "https://raw.githubusercontent.com/tonisives/tools/master/gradle/tes
 android {
     compileSdkVersion 31
     defaultConfig {
-        applicationId "com.tt.githubbrowser"
+        applicationId "com.tonisives.githubbrowser"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.tt.githubbrowser.app.Runner"
+        testInstrumentationRunner "com.tonisives.githubbrowser.app.Runner"
     }
     buildTypes {
         release {

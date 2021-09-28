@@ -17,25 +17,22 @@ class AuthRepository constructor(
     private val sharedPrefs: SharedPreferencesDao,
     private val executor: AppExecutors
 ) {
-    var result = MediatorLiveData<Resource<User>>()
+    var result = MediatorLiveData<Resource<User?>>()
 
-    fun getLoggedInUser(): LiveData<Resource<User?>> {
+    fun getLoggedInUser(): MediatorLiveData<Resource<User?>> {
         result.value = Resource.loading(null)
 
         executor.diskIO().execute {
             val dbSource = userDao.getFirst()
             executor.mainThread().execute {
-                result.addSource(dbSource) { data ->
-                    result.value = Resource.success(data)
-                    result.removeSource(dbSource)
-                }
+                result.value = Resource.success(dbSource.value)
             }
         }
 
-        return result as LiveData<Resource<User?>>
+        return result
     }
 
-    fun login(email: String, token: String): LiveData<Resource<User>> {
+    fun login(email: String, token: String): LiveData<Resource<User?>> {
         // call the login, store new user in db, set current user to sharedPrefs
         result.value = Resource.loading(null)
 

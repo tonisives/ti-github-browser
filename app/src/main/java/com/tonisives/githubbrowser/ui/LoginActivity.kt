@@ -10,25 +10,24 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.tonisives.githubbrowser.App.Companion.context
+import com.tonisives.githubbrowser.repository.Status
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 @Composable
@@ -36,6 +35,7 @@ fun LoginView(viewModel: LoginViewModel) = AppTheme {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
+    val user by viewModel.user.observeAsState()
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -45,13 +45,54 @@ fun LoginView(viewModel: LoginViewModel) = AppTheme {
             .fillMaxSize()
             .clickable { focusManager.clearFocus() }
     ) {
-        LoginFields(
-            email,
-            password,
-            onLoginClick = { viewModel.login(email, password) },
-            onEmailChange = { email = it },
-            onPasswordChange = { password = it }
-        )
+        when (user?.status) {
+            Status.LOADING -> {
+                CircularProgressIndicator()
+            }
+            Status.SUCCESS -> {
+                if (user?.data == null) {
+                    LoginFields(
+                        email,
+                        password,
+                        onLoginClick = { viewModel.login("ttiganik@gmail.com", password) },
+                        onEmailChange = { email = it },
+                        onPasswordChange = { password = it }
+                    )
+                } else {
+                    Text("Login successful", fontSize = MaterialTheme.typography.h3.fontSize)
+                    Text(
+                        "User ${user?.data?.login}",
+                        fontSize = MaterialTheme.typography.h4.fontSize
+                    )
+                }
+            }
+            Status.ERROR -> {
+                val snackbarHostState = remember { SnackbarHostState() }
+                val coroutineScope = rememberCoroutineScope()
+
+                LoginFields(
+                    email,
+                    password,
+                    onLoginClick = { viewModel.login("ttiganik@gmail.com", password) },
+                    onEmailChange = { email = it },
+                    onPasswordChange = { password = it }
+                )
+
+                coroutineScope.launch {
+                    val result = snackbarHostState
+                        .showSnackbar(
+                            "Login error: ${user?.message}",
+                            actionLabel = "Dismiss",
+                            duration = SnackbarDuration.Indefinite
+                        )
+                    when (result) {
+                        SnackbarResult.ActionPerformed -> viewModel.goToInitialState()
+                    }
+                }
+
+                SnackbarHost(hostState = snackbarHostState)
+            }
+        }
     }
 }
 
@@ -72,7 +113,7 @@ fun LoginFields(
         verticalArrangement = Arrangement.spacedBy(25.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Login")
+        Text("Please login")
 
         OutlinedTextField(
             value = email,
@@ -100,7 +141,7 @@ fun LoginFields(
             } else {
                 Toast.makeText(
                     context,
-                    "Please enter email and password",
+                    "Please enter an email and password",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -114,9 +155,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent {
-            LoginView(getViewModel())
-        }
+        setContent { LoginView(getViewModel()) }
 
         // animate the view up if text field selected
         WindowCompat.setDecorFitsSystemWindows(window, false)
