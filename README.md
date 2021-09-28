@@ -4,6 +4,8 @@ This app features a login and browsing of repositories via the Github API.
 
 Its purpose is to be a Android MVVM pattern skeleton app when starting a new project.
 
+From [blog post](https://tonisives.com/blog/2021/09/28/create-a-login-screen-with-jetpack-compose/)
+
 ![preview](doc/preview.gif)
 
 # Table of contents
