@@ -6,7 +6,6 @@ Its purpose is to be a Android MVVM pattern skeleton app when starting a new pro
 
 ![preview](doc/preview.gif)
 
-
 # Table of contents
 
 * [Requirements](#requirements)
@@ -23,25 +22,23 @@ Its purpose is to be a Android MVVM pattern skeleton app when starting a new pro
 
 ### Setup
 
-* Create a GitHub personal access token with at least repo read access [here](https://github.com/settings/tokens/) 
+* Create a GitHub personal access token with at least repo read
+  access [here](https://github.com/settings/tokens/)
 * Run LoginActivity.kt
-* Enter your username and personal access token to see the repo list.
+* Enter your username and personal access token to login.
 
 ### Architecture Components {#architecture}
 
 * **Jetpack Compose**: @Composable functions are used to define and update the UI.
-* **MVVM pattern**: ViewModels are used from androidx lifecycle packages. View reads LiveData from the ViewModel.
+* **MVVM pattern**: ViewModels are used from androidx lifecycle packages. View reads LiveData from
+  the ViewModel.
 * **Koin dependency injection**
 * **Room database**
 * **Volley network client**
 
 ### Test coverage {#testcoverage}
 
-* Instrumentation tests using MockWebServer assure that login and repo list views will be visible to the user.
-* Unit tests test that repositories read, fetch and store data.
-
 #### Run tests
-`./gradlew test && ./gradlew cAT`
 
 ### Contributing
 
@@ -53,5 +50,6 @@ MIT
 
 ### Original project {#original}
 
-The original project with XML layouts is in [tt-github-browser](https://github.com/tonisives/tt-github-browser) repository.
+The original project with XML layouts is
+in [tt-github-browser](https://github.com/tonisives/tt-github-browser) repository.
 
